@@ -24,16 +24,25 @@ public class HistoricoService {
     @Autowired
     private HistoricoRepository historicoRepository;
 
-    public void salvarHistorico(Usuarios usuarioOrigem, Long idDestino, BigDecimal valorTransferencia){
-        Historico historico = new Historico();
+    public void salvarHistorico(Usuarios usuarioOrigem,Usuarios usuariosDestino, BigDecimal valorTransferencia){
+        Historico historicoOrigem = new Historico();
+        Historico historicoDestinatario = new Historico();
         try {
             Date dataAtual = new Date();
-            historico.setDataInicial(dataAtual);
-            historico.setDescricao("Tranferencia para:"+idDestino);
-            historico.setSaldoFinal(usuarioOrigem.getConta().getSaldo());
-            historico.setUsuarios(usuarioOrigem);
-            historico.setValor(valorTransferencia);
-            historicoRepository.save(historico);
+            historicoOrigem.setDataInicial(dataAtual);
+            historicoOrigem.setDescricao("Tranferencia para:"+usuariosDestino.getNome()+""+usuariosDestino.getSobrenome());
+            historicoOrigem.setSaldoFinal(usuarioOrigem.getConta().getSaldo());
+            historicoOrigem.setUsuarios(usuarioOrigem);
+            historicoOrigem.setValor(valorTransferencia);
+
+            historicoDestinatario.setDataInicial(dataAtual);
+            historicoDestinatario.setDescricao("Recebido de:"+usuarioOrigem.getNome()+""+usuarioOrigem.getSobrenome());
+            historicoDestinatario.setSaldoFinal(usuariosDestino.getConta().getSaldo());
+            historicoDestinatario.setUsuarios(usuariosDestino);
+            historicoDestinatario.setValor(valorTransferencia);
+
+            historicoRepository.save(historicoOrigem);
+            historicoRepository.save(historicoDestinatario);
         }catch (Exception e){
            System.out.println(e.getMessage());
         }

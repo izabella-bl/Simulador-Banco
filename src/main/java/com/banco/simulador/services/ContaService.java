@@ -42,7 +42,7 @@ public class ContaService {
             usuarioOrigem.getConta().setSaldo(saldoOrigem.subtract(valorTransferido));
             usuarioDestino = usuarioRepository.save(usuarioDestino);
             usuarioOrigem = usuarioRepository.save(usuarioOrigem);
-            historicoService.salvarHistorico(usuarioOrigem,usuarioDestino.getId(),valorTransferido);
+            historicoService.salvarHistorico(usuarioOrigem,usuarioDestino,valorTransferido);
 
         }else{
             throw new Exception("Saldo insuficiente");

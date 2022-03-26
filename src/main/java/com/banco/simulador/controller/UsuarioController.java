@@ -40,7 +40,8 @@ public class UsuarioController {
      public String salvar(@RequestBody Usuarios model){
          boolean validarCpf = usuarioService.isValidaCpf(model.getCpf());
          boolean validarEmail = usuarioService.isValidarEmail(model.getEmail());
-         if(validarCpf & validarEmail){
+         boolean isExiste = usuarioService.isUsuarioExiste(model);
+         if(validarCpf & validarEmail & isExiste){
              String senha = usuarioService.criptografarSenha(model);
              model.setPassword(senha);
              model = contaService.inicializarConta(model);
